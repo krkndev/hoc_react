@@ -6,12 +6,14 @@ const withDataFetch =
   ({ ...props }) => {
     const [pokemon, setPokemon] = useState();
     const [pokeData, setPokeData] = useState();
-    // const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
+    if (loading) return <div> Loading...</div>;
 
     const getPokemon = (pokemon) => {
       const link = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
       const dataUrl = new URL(link);
       new Promise((resolve, reject) => {
+        setLoading(true);
         resolve(
           fetch(dataUrl, {
             method: 'GET',
@@ -21,6 +23,7 @@ const withDataFetch =
             .then((data) => {
               console.log('data :>> ', data);
               setPokeData(data);
+              setLoading(false);
             })
             .catch((err) => console.log('err :>> ', err)),
         );
@@ -61,7 +64,7 @@ const withDataFetch =
               pokeData.height,
             ]
           }
-          btnText={'next'}
+          btnText={'NEXT'}
           coverImg={pokeData && pokeData.sprites.front_default}
           btnFn={() => getPokemon(pokeData.id + 1)}
           // btnFn={() => console.log(pokeData)}
