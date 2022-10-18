@@ -1,6 +1,8 @@
 import Card from 'react-bootstrap/Card';
 import styled from 'styled-components';
 import stone from '../../assets/stone.webp';
+import React from 'react';
+
 const Container = styled.span`
   margin-inline: auto;
   margin-block: 50px;
@@ -13,7 +15,7 @@ const Container = styled.span`
   font-size: 20px;
   box-shadow: 10px 10px 10px 7px #ccc;
 `;
-function ImgOverlayExample() {
+const ImgOverlayExample = () => {
   return (
     <Container>
       <Card className='bg-dark text-white'>
@@ -29,6 +31,6 @@ function ImgOverlayExample() {
       </Card>
     </Container>
   );
-}
+};
 
 export default ImgOverlayExample;
