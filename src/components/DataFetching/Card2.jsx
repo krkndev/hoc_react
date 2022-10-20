@@ -2,6 +2,7 @@ import Card from 'react-bootstrap/Card';
 import styled from 'styled-components';
 import stone from '../../assets/stone.webp';
 import React from 'react';
+import { Button } from 'react-bootstrap';
 
 const Container = styled.span`
   margin-inline: auto;
@@ -15,21 +16,34 @@ const Container = styled.span`
   font-size: 20px;
   box-shadow: 10px 10px 10px 7px #ccc;
 `;
-const ImgOverlayExample = () => {
+const ImgOverlayExample = ({
+  title,
+  description,
+  btnText,
+  coverImg,
+  btnFn,
+}) => {
   return (
-    <Container>
-      <Card className='bg-dark text-white'>
-        <Card.Img src={stone} alt='Card image' />
-        <Card.ImgOverlay>
-          <Card.Title>Card title</Card.Title>
-          <Card.Text>
-            This is a wider card with supporting text below as a natural lead-in
-            to additional content. This content is a little bit longer.
-          </Card.Text>
-          <Card.Text>Last updated 3 mins ago</Card.Text>
-        </Card.ImgOverlay>
-      </Card>
-    </Container>
+    <>
+      <Container>
+        <Card className='bg-dark text-white'>
+          <Card.Img src={coverImg} alt='Card image' />
+          <Card.ImgOverlay style={{ marginTop: '60%' }}>
+            <Card.Title>{title}</Card.Title>
+            <Card.Text>{description}</Card.Text>
+            <Card.Text></Card.Text>
+            <Button
+              variant='primary'
+              onClick={() => {
+                btnFn();
+              }}
+            >
+              {btnText}
+            </Button>
+          </Card.ImgOverlay>
+        </Card>
+      </Container>
+    </>
   );
 };
 

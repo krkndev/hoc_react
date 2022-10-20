@@ -24,17 +24,17 @@ const withDataFetch =
               setPokeData(data);
               setLoading(false);
             })
-            .catch((err) => console.log('err :>> ', err)),
+            .catch((err) => window.alert(err)),
         );
         reject((error) => {
-          window.alert(error);
+          window.alert(error.status);
         });
       });
     };
 
     return (
       <>
-        <Row style={{ width: '50%', margin: 'auto', paddingTop: '5%' }}>
+        <Row style={{ width: '30%', margin: 'auto', paddingTop: '5%' }}>
           <input
             id='pokeInput'
             type='text'

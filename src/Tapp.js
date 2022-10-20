@@ -3,16 +3,17 @@ import React from 'react';
 import ImgOverlayExample from './components/DataFetching/Card2';
 import withDataFetch from './components/DataFetching/DataFetchHOC';
 import CardExample from './components/DataFetching/Card';
-import film from './assets/film.webp';
+import { Row } from 'react-bootstrap';
 
 const Tapp = () => {
   const FirstDummy = withDataFetch(CardExample);
+  const SecondDummy = withDataFetch(ImgOverlayExample);
   return (
     <>
-      <FirstDummy />
-      {/* <BasicExample cardImg={film} /> */}
-      <CardExample />
-      <ImgOverlayExample />
+      <Row>
+        {/* <FirstDummy /> */}
+        <SecondDummy />
+      </Row>
     </>
   );
 };
