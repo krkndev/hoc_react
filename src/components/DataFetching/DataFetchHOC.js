@@ -21,7 +21,6 @@ const withDataFetch =
           })
             .then((res) => res.json())
             .then((data) => {
-              console.log('data :>> ', data);
               setPokeData(data);
               setLoading(false);
             })
@@ -67,7 +66,6 @@ const withDataFetch =
           btnText={'NEXT'}
           coverImg={pokeData && pokeData.sprites.front_default}
           btnFn={() => getPokemon(pokeData.id + 1)}
-          // btnFn={() => console.log(pokeData)}
           {...props}
         />
       </>
