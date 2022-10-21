@@ -48,26 +48,27 @@ const withDataFetch =
           >
             Submit
           </button>
+
+          <Component
+            title={pokeData && pokeData.name.toUpperCase()}
+            description={
+              pokeData && [
+                'ID: ',
+                pokeData.id,
+                <br />,
+                'WEIGHT: ',
+                pokeData.weight,
+                <br />,
+                'HEIGHT: ',
+                pokeData.height,
+              ]
+            }
+            btnText={'NEXT'}
+            coverImg={pokeData && pokeData.sprites.front_default}
+            btnFn={() => getPokemon(pokeData.id + 1)}
+            {...props}
+          />
         </Row>
-        <Component
-          title={pokeData && pokeData.name.toUpperCase()}
-          description={
-            pokeData && [
-              'ID: ',
-              pokeData.id,
-              <br />,
-              'WEIGHT: ',
-              pokeData.weight,
-              <br />,
-              'HEIGHT: ',
-              pokeData.height,
-            ]
-          }
-          btnText={'NEXT'}
-          coverImg={pokeData && pokeData.sprites.front_default}
-          btnFn={() => getPokemon(pokeData.id + 1)}
-          {...props}
-        />
       </>
     );
   };
