@@ -28,21 +28,22 @@ const withExternalData =
     };
 
     const getData = (url) => {
-      const dataUrl = new URL('https://dummyjson.com/products');
+      const searchFor = url.substring(url.lastIndexOf('/') + 1);
+      console.log('searchFor :>> ', searchFor);
       new Promise((resolve, reject) => {
         setLoading(true);
         resolve(
-          fetch(dataUrl, {
+          fetch(url, {
             method: 'GET',
             cache: 'default',
           })
             .then((res) => res.json())
             .then((res) => {
-              const keys = Object.keys(res.products[0]);
+              console.log('res :>> ', res);
+              const keys = Object.keys(res[searchFor][0]);
               keys.pop();
               setHeader(generateHeaders(keys));
-              const tmp = removeProp(res.products, 'images');
-
+              const tmp = removeProp(res[searchFor], 'images');
               setData(tmp);
               setLoading(false);
             })
@@ -67,7 +68,7 @@ const withExternalData =
           <button
             id='fetch_test'
             onClick={() => {
-              getData(data);
+              getData(url);
             }}
           >
             Submit
