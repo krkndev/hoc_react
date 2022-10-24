@@ -1,12 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  // getUniqueOptions,
+  getUniqueOptions,
   searchInTable,
-  // selectSearch,
+  selectSearch,
   sortTable,
 } from './utilities/filters';
-// import SelectK from '../SelectK/SelectK';
+import SelectK from '../SelectK/SelectK';
 import { Col, Row } from 'react-bootstrap';
 import styled from 'styled-components';
 import Pagination from './utilities/Pagination';
@@ -25,14 +25,15 @@ const KrknTr = styled.tr`
   }
 `;
 const KrknTh = styled.th`
-  width: 25%;
-  margin: 0;
+  min-width: 125px;
+  padding: 5px;
   text-align: center;
   justify-content: center
   padding-inline: 0;
   background-color: #ddd;
   border-width: 1px;
   border-color: #bebebe;
+  
 `;
 
 const KrknTable = styled.table`
@@ -66,6 +67,7 @@ const MyTable = ({
   sortable = false,
   resultsPerPage = 10,
   pagination = true,
+  filterCat = false,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentData, setCurrentData] = useState(body);
@@ -93,11 +95,25 @@ const MyTable = ({
     } else {
       return currentData;
     }
-  }, [currentPage, currentData, resultsPerPage, pagination]);
+  }, [currentPage, currentData, resultsPerPage, pagination, currentFilters]);
 
   return (
     <>
       <div id='tblParent'>
+        {/* <Row style={{ justifyContent: 'center', padding: '10px' }}> */}
+        {/* <Col xs={8}> */}
+        {filter ? (
+          <TableFilter
+            type='text'
+            id='filterInput'
+            onKeyUp={searchInTable}
+            placeholder='Search for names...'
+          />
+        ) : (
+          ''
+        )}
+        {/* </Col> */}
+        {/* </Row> */}
         <KrknTable id='myTable'>
           <thead>
             <tr>
@@ -107,9 +123,28 @@ const MyTable = ({
                     id={index}
                     className='headerTbl'
                     key={`header-${title}-${index}`}
-                    // onClick={() => (sortable ? sortTable(index) : '')}
+                    // onClick={sortable ? sortTable(index) : ''}
                   >
                     {title.label}
+                    {filterCat ? (
+                      <SelectK
+                        id={'select-filter'}
+                        multiOps
+                        label={''}
+                        content={getUniqueOptions(
+                          currentData.map((el) => el[title.slug]),
+                        )}
+                        onChange={(e) => {
+                          console.log('title.slug :>> ', title.slug);
+                          setCurrentFilters(sampleObject[title.slug]);
+                          selectSearch(e);
+                          console.log('currentFilters :>> ', currentFilters);
+                        }}
+                        className={'select-filter'}
+                      />
+                    ) : (
+                      ''
+                    )}
                   </KrknTh>
                 );
               })}
