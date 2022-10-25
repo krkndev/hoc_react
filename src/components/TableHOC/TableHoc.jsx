@@ -29,7 +29,6 @@ const withExternalData =
 
     const getData = (url) => {
       const searchFor = url.substring(url.lastIndexOf('/') + 1);
-      console.log('searchFor :>> ', searchFor);
       new Promise((resolve, reject) => {
         setLoading(true);
         resolve(
