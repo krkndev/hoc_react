@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
+  generateFilteredTable,
   getUniqueOptions,
   searchInTable,
   selectSearch,
@@ -59,7 +60,7 @@ const TableFilter = styled.input`
   border: 1px solid #ddd;
   display: block;
 `;
-
+const ignoreFilters = ['description', 'discountpercentage', 'thumbnail'];
 const MyTable = ({
   header = [],
   body = [],
@@ -69,21 +70,26 @@ const MyTable = ({
   pagination = true,
   filterCat = false,
 }) => {
+  const originalData = [...body];
+  console.log('originalData :>> ', originalData);
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentData, setCurrentData] = useState(body);
-
+  const [currentData, setCurrentData] = useState(originalData);
   // filters object
   const sampleObject = {};
   const createFilterObj = useMemo(() => {
     const filterOptions = header.map((title) => title.slug);
+    console.log('filterOptions :>> ', filterOptions);
+
     for (let i = 0; i < filterOptions.length; i++) {
       sampleObject[filterOptions[i]] = [];
+
+      return sampleObject;
     }
-    return sampleObject;
-  }, [header, currentData]);
+  }, []);
+
+  console.log('sampleObject :>> ', sampleObject);
   // filters state
   const [currentFilters, setCurrentFilters] = useState(createFilterObj);
-  // current table data memo
 
   const currentTableData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * resultsPerPage;
@@ -96,6 +102,10 @@ const MyTable = ({
       return currentData;
     }
   }, [currentPage, currentData, resultsPerPage, pagination, currentFilters]);
+
+  // tener un obj de datos, cada prop combinatoria de filtros
+  // objeto empty toda la informacion disponible
+  // cada filtro nuevo se hace stringify con json
 
   return (
     <>
@@ -118,32 +128,35 @@ const MyTable = ({
           <thead>
             <tr>
               {header.map((title, index) => {
+                const { label, slug } = title;
+                console.log('header :>> ', header);
+                console.log('title :>> ', title);
                 return (
                   <KrknTh
                     id={index}
                     className='headerTbl'
-                    key={`header-${title}-${index}`}
+                    key={`header-${index}`}
                     // onClick={sortable ? sortTable(index) : ''}
                   >
-                    {title.label}
-                    {filterCat ? (
+                    {label}
+                    {!ignoreFilters.includes(slug) ? (
                       <SelectK
                         id={'select-filter'}
                         multiOps
                         label={''}
                         content={getUniqueOptions(
-                          currentData.map((el) => el[title.slug]),
+                          currentData.map((el) => el[slug]),
                         )}
                         onChange={(e) => {
-                          console.log('title.slug :>> ', title.slug);
-                          setCurrentFilters(sampleObject[title.slug]);
+                          sampleObject[slug] = e.map((el) => el.value);
+                          console.log('sampleObject :>> ', sampleObject);
                           selectSearch(e);
                           console.log('currentFilters :>> ', currentFilters);
                         }}
                         className={'select-filter'}
                       />
                     ) : (
-                      ''
+                      <></>
                     )}
                   </KrknTh>
                 );
