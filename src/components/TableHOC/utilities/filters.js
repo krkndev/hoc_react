@@ -1,22 +1,22 @@
+export const generateTable = (filteredData) => {};
+
 export const selectSearch = (data) => {
   const table = document.getElementById('myTable');
   const rows = table.getElementsByTagName('tr');
   let rowText;
   //gets individual selected values
   const unique = data.filter((value, index, self) => {
-    return self.indexOf(value) === index;
+    return self.indexOf(value.toString()) === index;
   });
   // returns an array of selected values by columns
   const selectValues = unique.map((element) =>
     typeof element.value === String ? element.value : element.value.toString(),
   );
-  // console.log('selectValues :>> ', selectValues);
   // loops to match selected values
   for (let i = 1; i < rows.length; i++) {
     // limit to cell ***********
     let rowData = rows[i];
     rowText = rowData.innerText;
-    // console.log('rowText :>> ', rowText);
     rowText.indexOf(selectValues) > -1 // try match to string **********
       ? (rowData.style.display = '')
       : (rowData.style.display = 'none');
