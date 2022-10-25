@@ -38,7 +38,6 @@ const withExternalData =
           })
             .then((res) => res.json())
             .then((res) => {
-              console.log('res :>> ', res);
               const keys = Object.keys(res[searchFor][0]);
               keys.pop();
               setHeader(generateHeaders(keys));
