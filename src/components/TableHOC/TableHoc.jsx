@@ -27,7 +27,7 @@ const withExternalData =
       return obj;
     };
 
-    const getData = (url) => {
+    const getData = (url = 'https://dummyjson.com/products') => {
       const searchFor = url.substring(url.lastIndexOf('/') + 1);
       new Promise((resolve, reject) => {
         setLoading(true);
@@ -66,7 +66,7 @@ const withExternalData =
           <button
             id='fetch_test'
             onClick={() => {
-              getData(url);
+              getData();
             }}
           >
             Submit
