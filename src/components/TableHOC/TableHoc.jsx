@@ -9,12 +9,12 @@ const withExternalData =
     const [header, setHeader] = useState();
     const [loading, setLoading] = useState(false);
     if (loading) return <div> Loading...</div>;
-
     const generateHeaders = (keys) => {
+      const ignoreFilters = ['description', 'discountpercentage', 'thumbnail'];
       const header = keys.map((key) => ({
         value: key,
         label: key.toUpperCase(),
-        filter: 'category',
+        filter: !ignoreFilters.includes(key.toLowerCase()) ? true : false,
         slug: key.toLowerCase(),
       }));
       return header;
