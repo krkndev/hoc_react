@@ -1,0 +1,19 @@
+{
+  "url": "url",
+  "request": {
+    "method": "methodType"
+  },
+  "header": {
+    "value": "key",
+    "label": "key",
+    "filter": "boolean",
+    "slug": "key"
+  },
+  "data": {
+    "disabled": {}
+  },
+  "filter": {
+    "ignorePatterns": "ignoreFilters",
+    "type": ["category", "range"]
+  }
+}
