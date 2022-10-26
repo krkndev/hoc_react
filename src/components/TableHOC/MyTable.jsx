@@ -60,7 +60,6 @@ const TableFilter = styled.input`
   border: 1px solid #ddd;
   display: block;
 `;
-const ignoreFilters = ['description', 'discountpercentage', 'thumbnail'];
 const MyTable = ({
   header = [],
   body = [],
@@ -103,10 +102,6 @@ const MyTable = ({
     }
   }, [currentPage, currentData, resultsPerPage, pagination, currentFilters]);
 
-  // tener un obj de datos, cada prop combinatoria de filtros
-  // objeto empty toda la informacion disponible
-  // cada filtro nuevo se hace stringify con json
-
   return (
     <>
       <div id='tblParent'>
@@ -128,7 +123,7 @@ const MyTable = ({
           <thead>
             <tr>
               {header.map((title, index) => {
-                const { label, slug } = title;
+                const { label, slug, filter } = title;
                 console.log('header :>> ', header);
                 console.log('title :>> ', title);
                 return (
@@ -139,7 +134,7 @@ const MyTable = ({
                     // onClick={sortable ? sortTable(index) : ''}
                   >
                     {label}
-                    {!ignoreFilters.includes(slug) ? (
+                    {filter ? (
                       <SelectK
                         id={'select-filter'}
                         multiOps
