@@ -8,8 +8,7 @@ import {
   sortTable,
 } from './utilities/filters';
 import SelectK from '../SelectK/SelectK';
-import { Col, Row } from 'react-bootstrap';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Pagination from './utilities/Pagination';
 
 const PagesWrapper = styled.div`
@@ -26,15 +25,26 @@ const KrknTr = styled.tr`
   }
 `;
 const KrknTh = styled.th`
-  min-width: 125px;
+  min-width: 10em;
   padding: 5px;
-  text-align: center;
-  justify-content: center
-  padding-inline: 0;
   background-color: #ddd;
   border-width: 1px;
   border-color: #bebebe;
-  
+  ${({ sortable }) => 
+    sortable ? 
+      css`&:before {
+        opacity: .125;
+        float: right;
+        bottom: 50%;
+        content: "▴";
+      }
+      &:after {
+        opacity: .125;
+        float: right;
+        top: 50%;
+        content: "▾";
+      }` : ''
+  };
 `;
 
 const KrknTable = styled.table`
@@ -60,21 +70,26 @@ const TableFilter = styled.input`
   border: 1px solid #ddd;
   display: block;
 `;
+
 const MyTable = ({
   header = [],
   body = [],
   filter = false,
-  sortable = false,
+  sortableGeneral = false,
   resultsPerPage = 10,
   pagination = true,
   filterCat = false,
 }) => {
   const originalData = [...body];
+  
   console.log('originalData :>> ', originalData);
+  
   const [currentPage, setCurrentPage] = useState(1);
   const [currentData, setCurrentData] = useState(originalData);
+  
   // filters object
   const sampleObject = {};
+
   const createFilterObj = useMemo(() => {
     const filterOptions = header.map((title) => title.slug);
     console.log('filterOptions :>> ', filterOptions);
@@ -102,11 +117,13 @@ const MyTable = ({
     }
   }, [currentPage, currentData, resultsPerPage, pagination, currentFilters]);
 
+  const sortColumn = id => {
+
+  };
+
   return (
     <>
       <div id='tblParent'>
-        {/* <Row style={{ justifyContent: 'center', padding: '10px' }}> */}
-        {/* <Col xs={8}> */}
         {filter ? (
           <TableFilter
             type='text'
@@ -117,33 +134,33 @@ const MyTable = ({
         ) : (
           ''
         )}
-        {/* </Col> */}
-        {/* </Row> */}
         <KrknTable id='myTable'>
           <thead>
             <tr>
-              {header.map((title, index) => {
-                const { label, slug, filter } = title;
-                console.log('header :>> ', header);
-                console.log('title :>> ', title);
+              {header.map(({
+                 id, 
+                 filter = false,
+                 sortable = false
+                }, index) => {
                 return (
                   <KrknTh
-                    id={index}
+                    id={id}
                     className='headerTbl'
-                    key={`header-${index}`}
-                    // onClick={sortable ? sortTable(index) : ''}
+                    key={ `header-${id}` }
+                    sortable={ sortable }
+                    onClick={ sortable ? sortColumn(id) : '' }
                   >
-                    {label}
-                    {filter ? (
+                    { id }
+                    { filter ? ( 
                       <SelectK
                         id={'select-filter'}
                         multiOps
                         label={''}
                         content={getUniqueOptions(
-                          currentData.map((el) => el[slug]),
+                          currentData.map((el) => el[id]),
                         )}
                         onChange={(e) => {
-                          sampleObject[slug] = e.map((el) => el.value);
+                          sampleObject[id] = e.map((el) => el.value);
                           console.log('sampleObject :>> ', sampleObject);
                           selectSearch(e);
                           console.log('currentFilters :>> ', currentFilters);

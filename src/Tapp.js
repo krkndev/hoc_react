@@ -7,11 +7,12 @@ const Tapp = () => {
   const External2 = withExternalData(MyTable, {
     "request": {
       "url": "https://dummyjson.com/products",
-      "method": "GET"
+      "method": "GET",
+      "target": "products"
     },
     "columns": [
       { id: "id" },
-      { id: "title" },
+      { id: "title", sortable: true },
       { id: "description" },
       { id: "price" },
       { id: "discountPercentage" },

@@ -14,24 +14,6 @@ const withExternalData =
 
       if (loading) return <div> Loading...</div>;
 
-      // const generateHeaders = () => {
-      //   console.log('config.columns :>> ', config.columns);
-      //   const header = config.columns.map((key) => ({
-      //     value: key,
-      //     label: key.toUpperCase(),
-      //     filter: !ignoreFilters.includes(key.toLowerCase()) ? true : false,
-      //     slug: key.toLowerCase(),
-      //   }));
-      //   return header;
-      // };
-
-      const removeProp = (obj, prop) => {
-        for (let i = 0; i < obj.length; i++) {
-          delete obj[i][prop];
-        }
-        return obj;
-      };
-
       const getData = (url) => {
         new Promise((resolve, reject) => {
           setLoading(true);
@@ -40,11 +22,10 @@ const withExternalData =
           })
             .then((res) => res.json())
             .then((res) => {
+              setData(res[config.request.target]);
               setHeader(config.columns);
-              // // const tmp = removeProp(res[searchFor], 'images');
-              // setData(res.products);
-              // setLoading(false);
-              // resolve(res);
+              setLoading(false);
+              resolve(res);
             })
             .catch((err) => {
               setLoading(false);
@@ -78,20 +59,31 @@ const withExternalData =
       );
     };
 
+// withExternalData.defaultProps = {
+//   /** Receives the request config. */
+//   request: PropTypes.shape({
+//     url: '',
+//     method: 'GET'
+//   }),
+//   columns: PropTypes.shape({
 
-withExternalData.propTypes = {
-  /** Receives a table where the data will be filled. */
-  component: PropTypes.element,
-  /** Receives the request config. */
-  request: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-    method: PropTypes.string
-  }),
-  /** Receives the request config. */
-  // headers: PropTypes.shape({
-  //   url: PropTypes.string.isRequired,
-  //   method: PropTypes.string
-  // }),
-};
+//   })
+// }
+
+// withExternalData.propTypes = {
+//   /** Receives a table where the data will be filled. */
+//   component: PropTypes.element,
+//   config: PropTypes.string,
+//   /** Receives the request config. */
+//   request: PropTypes.shape({
+//     url: PropTypes.string.isRequired,
+//     method: PropTypes.string
+//   }),
+//   /** Columns config. */
+//   // headers: PropTypes.shape({
+//   //   url: PropTypes.string.isRequired,
+//   //   method: PropTypes.string
+//   // }),
+// };
 
 export default withExternalData;
