@@ -23,13 +23,13 @@ const withExternalData =
     console.log('config :>> ', config);
 
     const [url, setUrl] = useState(config.request.url); 
-    const [data, setData] = useState(null);
-    const [header, setHeader] = useState<any | null>(null);
-    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState<any | null>();
+    const [header, setHeader] = useState<any | null>();
+    const [loading, setLoading] = useState<any | null>(false);
 
     if (loading) return <div> Loading...</div>;
 
-    const getData = (url) => {
+    const getData = (url: string) => {
       new Promise((resolve, reject) => {
         setLoading(true);
         fetch(url, {
