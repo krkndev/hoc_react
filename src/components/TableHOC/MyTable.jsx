@@ -30,21 +30,23 @@ const KrknTh = styled.th`
   background-color: #ddd;
   border-width: 1px;
   border-color: #bebebe;
-  ${({ sortable }) => 
-    sortable ? 
-      css`&:before {
-        opacity: .125;
-        float: right;
-        bottom: 50%;
-        content: "▴";
-      }
-      &:after {
-        opacity: .125;
-        float: right;
-        top: 50%;
-        content: "▾";
-      }` : ''
-  };
+  ${({ sortable }) =>
+    sortable
+      ? css`
+          &:before {
+            opacity: 0.125;
+            float: right;
+            bottom: 50%;
+            content: '▴';
+          }
+          &:after {
+            opacity: 0.125;
+            float: right;
+            top: 50%;
+            content: '▾';
+          }
+        `
+      : ''};
 `;
 
 const KrknTable = styled.table`
@@ -81,12 +83,12 @@ const MyTable = ({
   filterCat = false,
 }) => {
   const originalData = [...body];
-  
+
   console.log('originalData :>> ', originalData);
-  
+
   const [currentPage, setCurrentPage] = useState(1);
   const [currentData, setCurrentData] = useState(originalData);
-  
+
   // filters object
   const sampleObject = {};
 
@@ -117,9 +119,7 @@ const MyTable = ({
     }
   }, [currentPage, currentData, resultsPerPage, pagination, currentFilters]);
 
-  const sortColumn = id => {
-
-  };
+  const sortColumn = (id) => {};
 
   return (
     <>
@@ -137,21 +137,17 @@ const MyTable = ({
         <KrknTable id='myTable'>
           <thead>
             <tr>
-              {header.map(({
-                 id, 
-                 filter = false,
-                 sortable = false
-                }, index) => {
+              {header.map(({ id, filter = false, sortable = false }, index) => {
                 return (
                   <KrknTh
                     id={id}
                     className='headerTbl'
-                    key={ `header-${id}` }
-                    sortable={ sortable }
-                    onClick={ sortable ? sortColumn(id) : '' }
+                    key={`header-${id}`}
+                    sortable={sortable}
+                    onClick={() => (sortable ? sortColumn(id) : '')}
                   >
-                    { id }
-                    { filter ? ( 
+                    {id}
+                    {filter ? (
                       <SelectK
                         id={'select-filter'}
                         multiOps
